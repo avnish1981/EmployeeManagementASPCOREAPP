@@ -12,15 +12,18 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "MyKey": "This is my key from launchSetting.JSon"
       }
+    
     },
     "EmployeeManagementASPCOREAPP.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MyKey": "This is my key from Commnad Prompt"
       }
     }
   }

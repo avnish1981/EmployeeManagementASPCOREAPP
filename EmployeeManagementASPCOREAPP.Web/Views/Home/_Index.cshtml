@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Employee >
+
+<div class="card-deck ">
+    @foreach(var emp in Model )
+    {
+        <div class="card m-3">
+            <div class="card-header ">
+                <h3>@emp.Name  </h3>
+            </div>
+            <div class="card-footer text-center ">
+                @*<a href="/home/details/@emp.Id" class="btn btn-primary ">View</a>
+                <a href="#" class="btn btn-primary ">Edit</a>
+                <a href="#" class="btn btn-danger ">Delete</a>*@
+
+
+                @*@Html.ActionLink("View", "Details", "Home",new  { id = emp.Id })
+               <a href="@Url.Action("Details", "Home", new { id = emp.Id })" class="btn btn-primary ">ShowResult</a>*@
+                @*using  Tag Helpers*@
+                <a asp-controller="Home" asp-action="Details" asp-route-id="@emp.Id" class="btn btn-primary ">View</a>
+
+                
+            </div>
+        </div>
+    }
+</div>
