@@ -24,7 +24,7 @@
     <div class="form-group row ">
         <div class="col-sm-10 ">
             <button type="submit" class="btn btn-primary">Update</button>
-            <a asp-action=" ListRoles" class="btn btn-primary ">Cancel</a>
+            <a asp-action="ListRoles" class="btn btn-primary">Cancel</a>
         </div>
     </div>
     <div class="card ">
@@ -45,8 +45,8 @@
             }
         </div>
         <div class="card-footer ">
-            <a href="#" class="btn btn-primary " style="width:auto ">Add users</a>
-            <a href="#" class="btn btn-primary " style="width:auto ">Remove Users</a>
+            <a asp-action="EditUsersInRole" asp-controller="Administrator" asp-route-roleid="@Model.roleid  " class="btn btn-primary " style="width:auto ">Add or Remove users</a>
+           
         </div>
     </div>
 </form>

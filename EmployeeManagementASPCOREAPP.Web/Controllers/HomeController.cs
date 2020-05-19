@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace EmployeeManagementASPCOREAPP.Web.Controllers
 {
     //[Route("Pragim/Home")]
-    [Authorize ]
+    
     public class HomeController : Controller
     //public class AvnishController : Controller
     {
@@ -56,6 +56,7 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         //[Route("Details")]
         // public ViewResult GetDetailforEmployee(int? id)
         [AllowAnonymous ]
+        
         public ViewResult Details(int? id)
         {
             logger.LogTrace("Trace Log");

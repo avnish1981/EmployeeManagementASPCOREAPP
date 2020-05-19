@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EmployeeManagementASPCOREAPP.Web.Models;
 using EmployeeManagementASPCOREAPP.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,11 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
                 var result = await userManager.CreateAsync(user, register.Password);
                 if (result.Succeeded )
                 {
+                    if(signInManager.IsSignedIn(User ) && User.IsInRole("admin"))
+                    {
+                        return RedirectToAction("ListUsers", "Administrator");
+                    }
+                   
                    await signInManager.SignInAsync(user, isPersistent: false);
                     logger.LogWarning($"Record Created Sucessfully" + register.Email );
                     return RedirectToAction("Index", "Home");
@@ -71,24 +77,26 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
 
         [HttpGet ]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = HttpContext.Request.QueryString;
             return View();
         }
         [HttpPost ]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-       
         public async Task<IActionResult> Login(LoginViewModel model,string returnUrl)
-        {
-            if(ModelState.IsValid )
+        {          
+            
+            if (ModelState.IsValid )
             {
+               
                 var result = await  signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true );
                 if(result.Succeeded )
                 {
-                    if(!string.IsNullOrEmpty(returnUrl))
+                    if(!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        return Redirect(returnUrl);
+                        return LocalRedirect(returnUrl);
                     }
                     else
                     {
@@ -118,9 +126,16 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             }
             else
             {
-                return Json($"Email{email } already in use");
+                return Json($"Email {email } already in use");
             }
 
+        }
+
+        [HttpGet ]
+        [AllowAnonymous ]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

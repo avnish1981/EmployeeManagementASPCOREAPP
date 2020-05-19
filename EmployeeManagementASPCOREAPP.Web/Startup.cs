@@ -42,7 +42,7 @@ namespace EmployeeManagementASPCOREAPP.Web
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 options.Lockout.AllowedForNewUsers = true;
 
-            }).AddEntityFrameworkStores<AppDbContext>();
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
           /*  services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 10;
