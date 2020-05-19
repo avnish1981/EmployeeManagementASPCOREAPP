@@ -5,6 +5,18 @@
     {
       "library": "twitter-bootstrap@4.4.0",
       "destination": "wwwroot/Content/twitter-bootstrap/"
+    },
+    {
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/Content/JQuery/jquery/"
+    },
+    {
+      "library": "jquery-validate@1.19.1",
+      "destination": "wwwroot/Content/jquery/jquery-validate/"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "destination": "wwwroot/Content/jquery/jquery-validation-unobtrusive/"
     }
   ]
 }

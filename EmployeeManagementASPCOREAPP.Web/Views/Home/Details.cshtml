@@ -1,64 +1,24 @@
 ﻿@model  HomeDetailsViewModel  
 
-<html>
-<head>
-    <title>@Model.PageTitle  </title>
-</head>
-<body>
-    @*<h3>@ViewData["PageTitle"]</h3>
-        @{
-            var employee = ViewData["Employee"] as EmployeeManagementASPCOREAPP.Web.Models.Employee;
-        }
-        <div>
-            Name : @employee.Name
-        </div>
-        <div>
-            Email : @employee.Email
-        </div>
-        <div>
-            Department : @employee.Department
-        </div>*@
-    @*<h3>@ViewBag.PageTitle</h3>
-        @{
-            var employee = ViewBag.Employee;
-        }
-        <div>
-            Name : @employee.Name
-        </div>
-        <div>
-            Email : @employee.Email
-        </div>
-        <div>
-            Department : @employee.Department
-        </div>*@
-    <h3>Employee Infomation</h3>
-   
-    @*<div>
-        Name : @Model.Name  
-    </div>
-    <div>
-        Email : @Model.Email
-    </div>
-    <div>
-        Department : @Model.Department
-    </div>*@
-    <table>
-        <tr>
-            <th>Id  </th>
-            <th>Name  </th>
-            <th>Department  </th>
-        </tr>
-       
-        <tr>
-            <td>@Model.Employee.Id  </td>
-            <td>@Model.Employee.Name</td>
-            <td>@Model.Employee.Department</td>
-        
+@{ 
+    ViewBag.Title = "Employee Details";
+}
 
-    </table>
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card ">
+            <div class="card-header ">
+                <h1>@Model.Employee.Name  </h1>
+            </div>
+            <h4>Employee Id: @Model.Employee.Id  </h4>
+            <h4>Email: @Model.Employee.Email    </h4>
+            <h4>Departent: @Model.Employee.Department    </h4>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+
+
 <div class="card-footer text-center ">
     <a asp-controller="Home" asp-action="Index"  class="btn btn-primary ">Back</a>
     <a asp-controller="Home" asp-action="Update" class="btn btn-primary ">Edit</a>

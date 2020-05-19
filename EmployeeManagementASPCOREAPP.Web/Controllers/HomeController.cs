@@ -4,19 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagementASPCOREAPP.Web.Models;
 using EmployeeManagementASPCOREAPP.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagementASPCOREAPP.Web.Controllers
 {
     //[Route("Pragim/Home")]
+    [Authorize ]
     public class HomeController : Controller
     //public class AvnishController : Controller
     {
         private readonly IEmployeeRepositary _employeeRepositary;
-       // public AvnishController(IEmployeeRepositary employeeRepositary)
-        public HomeController(IEmployeeRepositary employeeRepositary)
+        private readonly ILogger<HomeController> logger;
+
+        // public AvnishController(IEmployeeRepositary employeeRepositary)
+        public HomeController(IEmployeeRepositary employeeRepositary, ILogger<HomeController>  logger )
         {
+            
             this._employeeRepositary = employeeRepositary;
+            this.logger = logger;
         }
         //public IActionResult Index()
         //{
@@ -26,6 +33,7 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         //[Route("~/")]
         //[Route("Index")]
         //public ViewResult GetEmployeeAllList()
+        [AllowAnonymous ]
         public ViewResult   Index()
         {
             var model =  _employeeRepositary.GetAllEmployee();
@@ -46,10 +54,16 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         //}
         //[Route("Details/{id}")]
         //[Route("Details")]
-       // public ViewResult GetDetailforEmployee(int? id)
+        // public ViewResult GetDetailforEmployee(int? id)
+        [AllowAnonymous ]
         public ViewResult Details(int? id)
         {
-            throw new Exception("This is exception Test");
+            logger.LogTrace("Trace Log");
+            logger.LogDebug("Debug Log");
+            logger.LogInformation("Information Log");
+            logger.LogWarning("Wrning Log");
+            logger.LogError("Error log");
+            logger.LogCritical("Critocal Log");
             //var model = _employeeRepositary.GetEmployee(1);
             //ViewData["Employee"] = model;
             //ViewData["PageTitle"] = "Employee Information";
@@ -59,10 +73,12 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             //return View("Test");
             //return View("../Test/Update");
             //return View("../../MyView/Index");
+            
             Employee emp = _employeeRepositary.GetEmployee(id.Value);
             if(emp == null)
             {
                 Response.StatusCode = 404;
+                logger.LogWarning("Employee does not exists");
                 return View("EmployeeNotFound", id.Value);
             }
             
@@ -73,12 +89,14 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             return View( model);
         }
         [HttpGet]
+        
         public ViewResult Create()
         {
             
             return View();
         }
         [HttpPost ]
+       
         public   ActionResult  Create(Employee emp)
         {
             var model = _employeeRepositary.Add(emp);
@@ -109,12 +127,14 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             return View(model);
         }
         [HttpGet ]
+       
         public ViewResult Update(int id)
         {
             var model = _employeeRepositary.GetEmployee(id);
             return View(model);
         }
         [HttpPost]
+      
         public ActionResult  Update(Employee emp)
         {
             if (ModelState.IsValid)

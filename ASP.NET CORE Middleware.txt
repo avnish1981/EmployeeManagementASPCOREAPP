@@ -1,0 +1,172 @@
+app.Use() -  This middleware accepts httpcontext object and Next parameter , which tends to execute next middleware request pipeline.
+
+app.UseDefaultFiles() -  This is Middleware display default page such as Index.htm or default.html pages.
+
+app.UseStaticFiles() -  This Middleware serves staic file which are reside inside wwwroot folder.
+
+app.UseFileServer() -  This middleware replaces UseDefaultFiles and UseStaticFiles.
+
+app.UseMvcWithDefaultRoute();  - This middleware enable default routing with /home/index...It having alreday default route configured.
+app.UseMvc() - This Middleware /extension method doesn't have default route configured.
+app.UseExceptionHandler() - This middleware will log the code exception error .
+app.UseDeveloperExceptionPage(); - This middleware display all the developers error in the browser.(stack trace,error message and path) this is default middle ware configured for Development enviorment.
+
+AddMvc - methods adds all the required MVC Services, 
+
+AddMVCCore - method adds only the core MVC services.
+
+Accept: application/xml  - This will generate OutPut in XML format.
+
+services.AddMvc().AddXmlSerializerFormatters() -  This servic will generate data in xml format using xmlserializerformatters.
+
+
+JsonResult -  This will return result in JSON format.
+
+ObjectResult - This will also generate result in JOSN format , but it accept content Negoation  and Accept: application/xml (accept parameter).
+ 
+Absolute Path - file extension i,e .cshtml must be defined.
+
+Relative Path - file extension shuould not specified.
+
+By Default every view is associated with controller name , 
+
+if we want to go one level upper we can specify ../ and it compared with View/Home.
+
+Drawback of using ViewData
+
+1.By using ViewData we are making loosly typed view .This means View doesn't know the type of data we are storing in the random key . It will only know at run time.
+
+2. Intelligence will not work and we eaisly misspell the words.
+
+3. Need to do typecasting only string type typecasting is not required.
+
+ViewBag.Employee(dynamic property)
+
+No need to do typecasting 
+
+In viewdata string key are used to store and display data .
+
+In ViewBag dynamic property are used to store and display data.
+
+ViewModel - Sometimes you view need to dsiplay more data since each model is associated with model , then in this condition ViewModel can be used to display data to view. 
+
+Attribute Routing - In Attribute Routing Name of the Controller class  and  name of the action method does not play any role on this . means we can rename the controller class and action name to anything.
+
+Tag Helper - >
+
+1.Tag Helpers are server side components
+2.Process on the server to create and render HTML elements.
+Importing Tag Helper ->
+@addTagHelper *(we want to import all tag helper),Microsoft.AspNetCore.Mvc.TagHelpers(It is the name of the assembly which buildin Tag helpers)
+
+
+Why to use Tag Helpers
+
+Consider that in the production enviorment we want to append CompanyName(HCL)/Home/Index in the URL. If we have hardcoded the URL the  it will throw error , If we are using Tag Helper pr HTML Helper before generating the URL it talks to default Route and see the template and accordenly it will generate the URL for the respective action methods.
+
+Repositatory Pattern
+
+Connection Must be written in below template
+
+ConnectionStrings": {
+    "EmployeeDBConnection": "Server=(localdb)\\MSSQLLocalDB;Database=EmployeeDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+
+Here notice that the word "ConnectionStrings" must be written in same manner other wise user will get no connection establishment error.
+
+Entity Framework Core Migration Commands
+
+1. Add-Migration InitialMigration
+2. Update-database
+3. remove-migration which will remove the files from Migration folder and updata the domainmodel in the AppDbContextModelSnapshot class.
+4. Update-database (MigrationID=> from _EFMigrationHistory Table), It will remove the column from database.
+
+Handling Error in ASPNET COre : 
+
+There are two types of 404 errors found
+
+1.Resource with the specified Id doesn't exists. - > Lets take sample example here in te details with we are passing the query string as a parameter which is not avalibale in he DB. so this time we will get 404 error.
+
+2.The URL doesnot match with any route. EX -(http://localhost:60129/foo/avnish.html) and here will get 404 error.
+There are three middleware either one of them we can use at a time.
+
+
+a.UseStatusCodePageWithRedirects - > Because of REdirect is issue , the url in the address bar changes.The major issue with this middleware is it returns success code 200 Ok.
+
+b.UseStatusCodePageswithReExecute -> Re-execute the pipeline and returns the original status code 404 (for example)
+As it reexecute the pipeline and not issue a redirect request , so we preserve the original URL(/foo/abc) in the address bar.
+
+c.UseStatusCodePages -  It display simply message => { Status Code: 404; Not Found  } 
+ 
+
+
+Status Code 500 - There was a error on server and server didnot know how to handle it.
+Status Code 302 - Moved Temporarily .
+
+1.Since URI foo/abc does not found  in Route , so it returns status code 404
+2.As soon as app.UseStatusCodePagesWithRedirects() Recives this status code it issue code 302 which means URI of the requested resource is temporary changed 
+3. So app.UseStatusCodePagesWithRedirects() middleware issues another Get Request to /error/404 
+4.Now /error/404 URI matches with route so it issues code 200 OK 
+
+So please avoid to use app.UseStatusCodePagesWithRedirects() middleware since it redirects the request to different URL.
+
+
+Global Exception Handling or Any Transaction Exception Handling in ASPNETCORE
+
+1.Add app.UseExceptionHandler("/Error") Middleware in HTTP Pipeline.
+2.We need to implement Error Controller and error view and we need to use HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+this will featch all exception details .
+3. Need to implement custome error view.
+
+Logging ->
+
+Nlog.web.aspnetcore => This will log the exceptions in file (Thid Party Library)
+1.Add new file called "nlog.config";
+2.Do the required configuration in the file.
+
+See the website for more information
+
+
+Logs Can be Filtered by
+1.Log Category
+2.LoggingProvider
+3.Both
+
+LogLevel Configuration
+1.Trace =0
+2.Debug=1
+3.Information=2
+4.Warning=3
+5.Error=4
+6.Critical=5
+7.None=7
+
+______________________________________________________________________________________________________________________________________________________________________________________
+
+ASP.NET Identity for Security Related Feature Implementation .
+It Provides below Feature
+1.Create,Read,Update and Delete User Accounts
+2.Account Confirmation
+3.Authentication and Authorization
+4.Password Recovery
+5.Two Factor authentication with SMS
+6.Supports External login Providers like Microsoft,Google , Facebook etc.
+
+IdentityDbContext - This class  will generate the all the identity Related tables in DB.
+
+UserManger - CreateAsync,DeleteAsync,UpdateAsync
+
+SignInManager - SignInAsync,SignOutAsync,IsSignIn
+
+Clinet Side Validation - For That we need to add three client side library
+ <script src="~/Content/jquery/jquery/jquery.js"></script>
+ <script src="~/Content/jquery/jquery-validate/jquery.validate.js"></script>
+ <script src="~/Content/jquery/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+
+
+
+
+
+                                      
