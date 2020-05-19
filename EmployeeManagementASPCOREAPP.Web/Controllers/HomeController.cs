@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace EmployeeManagementASPCOREAPP.Web.Controllers
 {
     //[Route("Pragim/Home")]
-    
+    [Authorize(Roles ="users")]
     public class HomeController : Controller
     //public class AvnishController : Controller
     {
