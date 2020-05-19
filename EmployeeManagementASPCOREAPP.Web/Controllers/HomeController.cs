@@ -79,7 +79,7 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             if(emp == null)
             {
                 Response.StatusCode = 404;
-                logger.LogWarning("Employee does not exists");
+                //logger.LogWarning("Employee does not exists");
                 return View("EmployeeNotFound", id.Value);
             }
             
