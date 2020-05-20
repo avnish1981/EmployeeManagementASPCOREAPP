@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace EmployeeManagementASPCOREAPP.Web.Controllers
 {
     //[Route("Pragim/Home")]
-    [Authorize(Roles ="users")]
+    //[Authorize(Roles ="users")]
     public class HomeController : Controller
     //public class AvnishController : Controller
     {
@@ -33,7 +33,8 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         //[Route("~/")]
         //[Route("Index")]
         //public ViewResult GetEmployeeAllList()
-        [AllowAnonymous ]
+        
+        [Authorize(Roles = "users")]
         public ViewResult   Index()
         {
             var model =  _employeeRepositary.GetAllEmployee();
@@ -55,8 +56,8 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         //[Route("Details/{id}")]
         //[Route("Details")]
         // public ViewResult GetDetailforEmployee(int? id)
-        [AllowAnonymous ]
         
+        [Authorize(Roles = "users")]
         public ViewResult Details(int? id)
         {
             logger.LogTrace("Trace Log");
@@ -90,14 +91,16 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             return View( model);
         }
         [HttpGet]
-        
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public ViewResult Create()
         {
             
             return View();
         }
         [HttpPost ]
-       
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public   ActionResult  Create(Employee emp)
         {
             var model = _employeeRepositary.Add(emp);
@@ -110,6 +113,8 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
         }
        
         [HttpGet]
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public ViewResult Delete(int id)
         {
             var model = _employeeRepositary.GetEmployee(id);
@@ -117,6 +122,8 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public ActionResult  Delete(Employee emp)
         {
             var model = _employeeRepositary.Delete(emp);
@@ -128,14 +135,16 @@ namespace EmployeeManagementASPCOREAPP.Web.Controllers
             return View(model);
         }
         [HttpGet ]
-       
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public ViewResult Update(int id)
         {
             var model = _employeeRepositary.GetEmployee(id);
             return View(model);
         }
         [HttpPost]
-      
+        [Authorize(Roles = "users")]
+        [Authorize(Roles = "admin")]
         public ActionResult  Update(Employee emp)
         {
             if (ModelState.IsValid)
